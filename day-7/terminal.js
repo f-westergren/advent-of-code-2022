@@ -73,9 +73,10 @@ fs.readFile("input.txt", function read(err, data) {
 
   for (cmd of input) {
     if (cmd.startsWith("$")) {
-      // We can skip ls because it doesn't really do anything
+      // We can skip ls and cmd / as they don't really do anything
       if (cmd === "$ ls" || cmd === "$ cd /") {
         continue;
+        // It's a command, check what to do
       } else if (cmd.startsWith("$ cd")) {
         let dir = cmd.split(" ")[2];
         if (dir === "..") {
