@@ -7,6 +7,23 @@ fs.readFile("input.txt", function read(err, data) {
 
   let input = data.toString().replace(/\r\n/g, "\n").split("\n");
 
+  const createNestedObject = function (base, keys, value) {
+    // If a value is given, remove the last key and keep it for later:
+    const lastKey = arguments.length === 3 ? keys.pop() : false;
+
+    // Walk the hierarchy, creating new objects where needed.
+    // If the lastKey was removed, then the last object is not set yet:
+    for (let i = 0; i < keys.length; i++) {
+      base = base[keys[i]] = base[keys[i]] || {};
+    }
+
+    // If a value was given, set it to the last name:
+    if (lastKey) base = base[lastKey] = value;
+
+    // Return the last object in the hierarchy:
+    return base;
+  };
+
   const addFolderSize = (obj) => {
     Object.keys(obj).forEach((key) => {
       if (typeof obj[key] === "object" && obj[key] !== null) {
@@ -49,23 +66,6 @@ fs.readFile("input.txt", function read(err, data) {
         }
       }
     });
-  };
-
-  const createNestedObject = function (base, keys, value) {
-    // If a value is given, remove the last key and keep it for later:
-    const lastKey = arguments.length === 3 ? keys.pop() : false;
-
-    // Walk the hierarchy, creating new objects where needed.
-    // If the lastKey was removed, then the last object is not set yet:
-    for (let i = 0; i < keys.length; i++) {
-      base = base[keys[i]] = base[keys[i]] || {};
-    }
-
-    // If a value was given, set it to the last name:
-    if (lastKey) base = base[lastKey] = value;
-
-    // Return the last object in the hierarchy:
-    return base;
   };
 
   let path = [];
